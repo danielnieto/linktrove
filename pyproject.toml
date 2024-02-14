@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "linktrove"
+version = "0.1.0"
+description = "A place to keep your links"
+authors = ["Daniel Nieto <daniel@nieto.dev>"]
+license = "AGPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
