@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "allauth",
+    "allauth.account",
     "linktrove.users",
 ]
 
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -115,4 +118,29 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by email
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
 AUTH_USER_MODEL = "users.User"
+
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SESSION_REMEMBER = True
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_USER_DISPLAY = "linktrove.users.utils.get_user_display"
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_FORMS = {
+    "login": "linktrove.users.forms.CustomLoginForm",
+    "reset_password_from_key": "linktrove.users.forms.CustomResetPasswordKeyForm",
+    "reset_password": "linktrove.users.forms.CustomResetPasswordForm",
+    "signup": "linktrove.users.forms.CustomSignupForm",
+}

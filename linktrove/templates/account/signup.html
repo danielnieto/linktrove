@@ -1,0 +1,22 @@
+{% extends "account_base.html" %}
+{% load allauth i18n %}
+{% block head_title %}
+    {% trans "Signup" %}
+{% endblock head_title %}
+{% block form_extra_classes %}
+    max-w-sm
+{% endblock form_extra_classes %}
+{% block heading_extra_classes %}
+    text-center
+{% endblock heading_extra_classes %}
+{% block heading %}
+    {% trans "Signup" %}
+{% endblock heading %}
+{% block message %}
+    <div class="mt-4 w-80">
+        Already have an account? Then please sign up <a class="link link-secondary link-hover" href="{{ login_url }}">sign in</a>
+    </div>
+{% endblock message %}
+{% block actions %}
+    <button type="submit" class="btn btn-primary mt-5">{% trans "Sign Up" %}</button>
+{% endblock actions %}

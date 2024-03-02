@@ -1,0 +1,20 @@
+{% extends "account_base.html" %}
+{% block heading_extra_classes %}
+    text-center
+{% endblock heading_extra_classes %}
+{% block heading %}
+    Login
+{% endblock heading %}
+{% block actions %}
+    <button type="submit" class="btn btn-primary mt-5">Log In</button>
+{% endblock actions %}
+{% block below_form %}
+    <p>
+        <a href="{% url 'account_reset_password' %}"
+           class="link link-secondary link-hover">Forgot Password?</a>
+    </p>
+    <p>
+        Don't have an account? <a href="{% url 'account_signup' %}"
+    class="link link-secondary link-hover">Sign Up</a>
+    </p>
+{% endblock below_form %}

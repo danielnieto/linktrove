@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% load allauth account %}
+{% block content %}
+    {% block alert %}
+    {% endblock alert %}
+    <article class="{% block container_extra_classes %}{% endblock container_extra_classes %} mx-auto flex flex-col flex-grow place-content-center">
+        <h1 class="text-xl font-extrabold {% block heading_extra_classes %}{% endblock heading_extra_classes %}">
+            {% block heading %}
+            {% endblock heading %}
+        </h1>
+        {% block message %}
+        {% endblock message %}
+        {% block form %}
+            {% if form %}
+                <form method="post"
+                      class="my-4 flex flex-col p-5 border rounded {% block form_extra_classes %}{% endblock form_extra_classes %}">
+                    {% if form.non_field_errors %}<div class="alert alert-error my-3 w-80">{{ form.non_field_errors }}</div>{% endif %}
+                    {% csrf_token %}
+                    <div class="space-y-5">
+                        {% for field in form %}
+                            <div class="flex flex-col">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                <div class="error">
+                                    {% for error in field.errors %}<div class="text-sm text-error">{{ error }}</div>{% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% block actions %}
+                    {% endblock actions %}
+                </form>
+            {% endif %}
+        {% endblock form %}
+        {% block below_form %}
+        {% endblock below_form %}
+    </article>
+{% endblock content %}

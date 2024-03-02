@@ -1,0 +1,31 @@
+{% extends "account_base.html" %}
+{% load i18n %}
+{% load account %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Confirm Email Address" %}
+{% endblock head_title %}
+{% block heading %}
+    {% trans "Confirm Email Address" %}
+{% endblock heading %}
+{% block message %}
+    <p class="prose prose-slate mt-4">
+        {% if confirmation %}
+            {% user_display confirmation.email_address.user as user_display %}
+            {% if can_confirm %}
+                {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is your email.{% endblocktrans %}
+                {% url 'account_confirm_email' confirmation.key as action_url %}
+                {% block actions %}
+                    <form method="post" action="{{ action_url }}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary mt-5 w-full">{% trans "Confirm" %}</button>
+                    </form>
+                {% endblock actions %}
+            {% else %}
+                {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
+            {% endif %}
+        {% else %}
+            {% blocktrans %}This email confirmation link expired or is invalid.{% endblocktrans %}
+        {% endif %}
+    </p>
+{% endblock message %}

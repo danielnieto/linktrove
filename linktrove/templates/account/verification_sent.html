@@ -1,0 +1,14 @@
+{% extends "account_base.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Verify Your Email Address" %}
+{% endblock head_title %}
+{% block heading %}
+    {% trans "Verify Your Email Address" %}
+{% endblock heading %}
+{% block message %}
+    <p class="prose prose-slate mt-4">
+        {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}
+    </p>
+{% endblock message %}

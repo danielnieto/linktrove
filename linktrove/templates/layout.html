@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-{% block 'content' %}
+{% block body %}
     {% include "partials/_header.html" %}
-    <main class="container w-full md:max-w-3xl mx-auto pt-20">
-        Linktrove
+    {% include "partials/_messages.html" %}
+    <main class="container w-full md:max-w-3xl mx-auto px-4 flex-grow flex flex-col">
+        {% block content %}
+        {% endblock content %}
     </main>
     {% include "partials/_footer.html" %}
-{% endblock 'content' %}
+{% endblock body %}

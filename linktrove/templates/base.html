@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,11 +9,19 @@
         <meta name="author" content="danielnieto">
         <meta name="keywords"
               content="bookmarking, save links, link management, online bookmarks, URL organizer, web links storage, bookmark manager, link saver, URL archive, internet favorites">
-        <title>Linktrove</title>
+        <title>
+            {% block head_title %}
+                Linktrove
+            {% endblock head_title %}
+        </title>
         <link href="{% static 'dist/output.css' %}" rel="stylesheet">
+        {% block extra_head %}
+        {% endblock extra_head %}
     </head>
-    <body>
-        {% block 'content' %}
-        {% endblock 'content' %}
+    <body class="flex h-screen min-h-full flex-col justify-center">
+        {% block body %}
+        {% endblock body %}
+        {% block extra_body %}
+        {% endblock extra_body %}
     </body>
 </html>

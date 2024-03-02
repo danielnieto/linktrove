@@ -15,8 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
+from linktrove.users.views import not_found
+
+
+class Base(TemplateView):
+    template_name = "layout.html"
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/email/", not_found),
+    path("accounts/password/change/", not_found),
+    path("accounts/inactive/", not_found),
+    path("accounts/reauthenticate/", not_found),
+    path("accounts/", include("allauth.urls")),
+    path("", Base.as_view()),
 ]
