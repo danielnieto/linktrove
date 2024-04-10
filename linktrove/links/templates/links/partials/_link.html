@@ -1,0 +1,70 @@
+{% load link_extras %}
+{# djlint:off H006 #}
+{% comment %}
+H006 requires img to have a specific width and height and this is variable in this case
+{% endcomment %}
+<div class="card card-compact card-side bg-base-100 shadow-xl">
+    <figure class="w-1/3">
+        <img class="w-full h-full object-cover"
+             src="{{ link.thumbnail }}"
+             alt="Album" />
+    </figure>
+    <div class="card-body w-2/3">
+        <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
+        <h2 class="card-title first-letter:uppercase m-0">{{ link.title }}</h2>
+        <div class="divider my-0"></div>
+        <h3 class="prose text-xs">Description</h3>
+        <p class="first-letter:uppercase">{{ link.description|default:'--' }}</p>
+        <h3 class="prose text-xs">Notes</h3>
+        <p class="first-letter:uppercase">{{ link.notes|default:'--' }}</p>
+        <div class="card-actions flex items-center flex-nowrap gap-2">
+            <span title="{{ link.url|remove_protocol }}"
+                  class="overflow-ellipsis overflow-hidden text-xs prose whitespace-nowrap flex-auto">
+                {{ link.url|remove_protocol }}
+            </span>
+            <button class="btn btn-primary">Open</button>
+            <div class="dropdown dropdown-end absolute top-3 right-3 ">
+                <div tabindex="0" role="button" class="btn btn-square btn-sm btn-ghost">
+                    <svg class="w-6 h-6"
+                         aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg"
+                         width="24"
+                         height="24"
+                         fill="none"
+                         viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01" />
+                    </svg>
+                </div>
+                <ul tabindex="0"
+                    class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li>
+                        <a>
+                            <svg class="w-6 h-6"
+                                 aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
+                            </svg>
+                        Edit </a>
+                    </li>
+                    <li>
+                        <a class="link-warning">
+                            <svg class="w-6 h-6"
+                                 aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="24"
+                                 height="24"
+                                 fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        Remove </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

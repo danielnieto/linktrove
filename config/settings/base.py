@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "linktrove.users",
+    "linktrove.links",
 ]
 
 MIDDLEWARE = [

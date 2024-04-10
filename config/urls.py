@@ -31,5 +31,5 @@ urlpatterns = [
     path("accounts/inactive/", not_found),
     path("accounts/reauthenticate/", not_found),
     path("accounts/", include("allauth.urls")),
-    path("", Base.as_view()),
+    path("", include("linktrove.links.urls")),
 ]
