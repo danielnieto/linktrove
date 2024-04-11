@@ -9,12 +9,11 @@ H006 requires img to have a specific width and height and this is variable in th
              src="{{ link.thumbnail }}"
              alt="Album" />
     </figure>
-    <div class="card-body w-2/3">
+    <div class="card-body w-2/3 gap-0">
         <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
-        <h2 class="card-title first-letter:uppercase m-0">{{ link.title }}</h2>
+        <h2 class="card-title first-letter:uppercase">{{ link.title|default:'Untitled' }}</h2>
+        {% if link.description %}<p class="first-letter:uppercase prose text-xs">{{ link.description }}</p>{% endif %}
         <div class="divider my-0"></div>
-        <h3 class="prose text-xs">Description</h3>
-        <p class="first-letter:uppercase">{{ link.description|default:'--' }}</p>
         <h3 class="prose text-xs">Notes</h3>
         <p class="first-letter:uppercase">{{ link.notes|default:'--' }}</p>
         <div class="card-actions flex items-center flex-nowrap gap-2">
