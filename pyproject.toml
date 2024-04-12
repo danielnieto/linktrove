@@ -13,6 +13,9 @@ django-allauth = "^0.61.1"
 django-extensions = "^3.2.3"
 shortuuid = "^1.0.13"
 requests = "^2.31.0"
+python-dotenv = "^1.0.1"
+metadata-parser = "^0.12.1"
+lxml = "^5.2.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
