@@ -8,6 +8,7 @@ class Link(TimeStampedModel, TitleDescriptionModel, models.Model):
     id = ShortUUIDField(primary_key=True)
     notes = models.TextField(blank=True)
     thumbnail = models.URLField(blank=True, null=True)
+    favicon = models.URLField(blank=True, null=True)
     url = models.URLField()
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 

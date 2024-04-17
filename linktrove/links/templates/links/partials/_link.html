@@ -18,7 +18,8 @@ H006 requires img to have a specific width and height and this is variable in th
         <p class="first-letter:uppercase">{{ link.notes|default:'--' }}</p>
         <div class="card-actions flex items-center flex-nowrap gap-2">
             <span title="{{ link.url|remove_protocol }}"
-                  class="overflow-ellipsis overflow-hidden text-xs prose whitespace-nowrap flex-auto">
+                  class="overflow-ellipsis overflow-hidden text-xs prose whitespace-nowrap flex-auto flex gap-1 items-center">
+                {% if link.favicon %}<img src="{{ link.favicon }}" class="min-w-4 size-4" alt="{{ link.url }}" />{% endif %}
                 {{ link.url|remove_protocol }}
             </span>
             <button class="btn btn-primary">Open</button>
