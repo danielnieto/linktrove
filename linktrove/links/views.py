@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from .models import Link
 
 
-class LinksListView(LoginRequiredMixin, ListView):
+class LinkListView(LoginRequiredMixin, ListView):
     model = Link
     context_object_name = "links"
     paginate_by = 5
