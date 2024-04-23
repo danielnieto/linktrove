@@ -13,7 +13,7 @@ class LinkListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Link.objects.filter(user=user)
+        return Link.objects.filter(user=user).order_by("-created")
 
 
 class LinkCreateView(LoginRequiredMixin, CreateView):
