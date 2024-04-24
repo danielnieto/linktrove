@@ -1,7 +1,6 @@
 from metadata_parser import MetadataParser
 from urllib.parse import urlparse
 
-PLACEHOLDER_IMAGE_URL = "https://placehold.co/400x400?text={text}"
 FAKE_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.3"
 
 
@@ -22,11 +21,7 @@ def extract_metadata(url: str) -> tuple[str, str | None, str, str | None]:
 
     title = titles[0] if titles else url
     description = descriptions[0] if descriptions else None
-    thumbnail = (
-        images[0]
-        if images
-        else PLACEHOLDER_IMAGE_URL.format(text=title.replace(" ", "+"))
-    )
+    thumbnail = images[0] if images else None
 
     favicon_links = page.soup.find_all("link", rel="icon")
     favicon_links.extend(page.soup.find_all("link", rel="shortcut icon"))
