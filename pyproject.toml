@@ -16,6 +16,7 @@ requests = "^2.31.0"
 python-dotenv = "^1.0.1"
 metadata-parser = "^0.12.1"
 lxml = "^5.2.1"
+whitenoise = "^6.6.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"
