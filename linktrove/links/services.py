@@ -4,16 +4,20 @@ from urllib.parse import urlparse
 FAKE_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.3"
 
 
-def extract_metadata(url: str) -> tuple[str, str | None, str, str | None]:
+def extract_metadata(url: str) -> tuple[str, str | None, str | None, str | None]:
     # add a fake user agent because to simulate a request from a web browser
     url_headers = {"User-Agent": FAKE_USER_AGENT}
-    page = MetadataParser(
-        url=url,
-        url_headers=url_headers,
-        support_malformed=True,
-        force_doctype=True,
-        search_head_only=False,
-    )
+
+    try:
+        page = MetadataParser(
+            url=url,
+            url_headers=url_headers,
+            support_malformed=True,
+            force_doctype=True,
+            search_head_only=False,
+        )
+    except Exception:
+        return url, None, None, None
 
     titles = page.get_metadatas("title")
     descriptions = page.get_metadatas("description")
