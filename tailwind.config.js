@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./linktrove/**/*.html"],
+  content: ["./linktrove/**/*.html", "./linktrove/**/forms.py"],
   theme: {
     extend: {},
   },
