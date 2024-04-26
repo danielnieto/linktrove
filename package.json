@@ -10,8 +10,8 @@
   "license": "AGPL-3.0",
   "name": "linktrove",
   "scripts": {
-    "build": "tailwindcss -i ./linktrove/tailwind/input.css -o ./linktrove/static/css/styles.css --minify",
-    "start": "tailwindcss -i ./linktrove/tailwind/input.css -o ./linktrove/static/css/styles.css --watch",
+    "build": "tailwindcss -i ./linktrove/tailwind/input.css -o ./linktrove/static/dist/css/styles.css --minify",
+    "start": "tailwindcss -i ./linktrove/tailwind/input.css -o ./linktrove/static/dist/css/styles.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "version": "1.0.0"
