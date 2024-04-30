@@ -9,8 +9,13 @@ console_command = '/code/manage.py shell'
 
 [build]
 
+[deploy]
+  release_command = "./manage.py migrate"
+
 [env]
   PORT = '8000'
+  EMAIL_HOST = 'email-smtp.us-east-2.amazonaws.com'
+  DJANGO_SETTINGS_MODULE = 'config.settings.production'
 
 [http_service]
   internal_port = 8000
@@ -24,7 +29,3 @@ console_command = '/code/manage.py shell'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
-[[statics]]
-  guest_path = '/code/static'
-  url_prefix = '/static/'

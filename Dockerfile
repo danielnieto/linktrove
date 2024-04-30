@@ -1,5 +1,15 @@
 ARG PYTHON_VERSION=3.11-slim-bullseye
 
+# Stage 1: Install Node.js and build frontend assets
+FROM node:20 AS node_builder
+
+WORKDIR /code
+
+COPY . /code
+
+RUN npm run build
+
+# Stage 2: Build django app
 FROM python:${PYTHON_VERSION}
 
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -14,6 +24,11 @@ COPY pyproject.toml poetry.lock /code/
 RUN poetry config virtualenvs.create false
 RUN poetry install --only main --no-root --no-interaction
 COPY . /code
+
+# Copy built frontend assets from node_builder stage
+COPY --from=node_builder /code/linktrove/static/dist /code/linktrove/static/dist
+
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
