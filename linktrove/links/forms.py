@@ -18,3 +18,7 @@ class LinkCreateForm(forms.ModelForm):
                 attrs={"class": "textarea textarea-bordered w-full"}
             ),
         }
+
+    def clean_url(self):
+        # remove trailing slashes
+        return self.cleaned_data.get("url", "").rstrip("/")
