@@ -25,15 +25,18 @@
         <div class="join mx-auto grid grid-cols-3">
             {% if page_obj.has_previous %}
                 <a href="?page={{ page_obj.previous_page_number }}"
-                   class="join-item btn btn-md">«</a>
+                   class="join-item btn">«</a>
+            {% else %}
+                <button disabled class="join-item btn disabled:bg-gray-100">«</button>
             {% endif %}
             <button disabled
                     class="join-item btn disabled:text-base-content disabled:bg-gray-50">
                 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
             </button>
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}"
-                   class="join-item btn btn-md">»</a>
+                <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">»</a>
+            {% else %}
+                <button disabled class="join-item btn disabled:bg-gray-100">»</button>
             {% endif %}
         </div>
     </div>
