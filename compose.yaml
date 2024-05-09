@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: linktrove
       POSTGRES_USER: linktrove_db_user
       POSTGRES_PASSWORD: linktrove_db_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   linktrove:
     build: .
@@ -25,3 +27,6 @@ services:
     container_name: linktrove
     environment:
       DATABASE_URL: postgres://linktrove_db_user:linktrove_db_password@db:5432/linktrove
+
+volumes:
+  postgres_data:
