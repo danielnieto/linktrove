@@ -2,7 +2,7 @@ name: linktrove
 
 services:
   db:
-    image: postgres
+    image: postgres:15.6
     restart: always
     container_name: linktrove-db
     environment:
