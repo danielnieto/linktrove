@@ -1,0 +1,27 @@
+name: linktrove
+
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: linktrove-db
+    environment:
+      POSTGRES_DB: linktrove
+      POSTGRES_USER: linktrove_db_user
+      POSTGRES_PASSWORD: linktrove_db_password
+
+  linktrove:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8002:8000
+    depends_on:
+      - db
+    restart: always
+    stdin_open: true # for pdb
+    tty: true # for pdb
+    container_name: linktrove
+    environment:
+      DATABASE_URL: postgres://linktrove_db_user:linktrove_db_password@db:5432/linktrove
