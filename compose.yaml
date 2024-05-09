@@ -28,5 +28,19 @@ services:
     environment:
       DATABASE_URL: postgres://linktrove_db_user:linktrove_db_password@db:5432/linktrove
 
+  dev-env:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM node:20
+        WORKDIR /code
+        COPY . .
+        RUN npm install
+    command: npm run start
+    tty: true
+    volumes:
+      - .:/code
+    container_name: dev-env
+
 volumes:
   postgres_data:
