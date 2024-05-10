@@ -5,8 +5,7 @@
                href="{% url 'link_list' %}">Linktrove</a>
         </div>
         <div class="block lg:hidden pr-4">
-            <button id="nav-toggle"
-                    class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-green-500 appearance-none focus:outline-none">
+            <button id="nav-toggle" class="btn btn-square btn-sm btn-ghost">
                 <svg class="fill-current h-3 w-3"
                      viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
@@ -15,7 +14,7 @@
                 </svg>
             </button>
         </div>
-        <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+        <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
              id="nav-content">
             <div class="lg:flex justify-end flex-1 items-center bg-white">
                 <span class="px-4">{{ user.email }}</span>
