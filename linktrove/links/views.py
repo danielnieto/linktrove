@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.urls import reverse_lazy
 from linktrove.links.services import extract_metadata
 from .models import Link
@@ -34,3 +34,17 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         form.instance.favicon = favicon
 
         return super().form_valid(form)
+
+
+class LinkUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = "links/partials/_link_update.html"
+    model = Link
+    fields = ["notes"]
+
+    def get_success_url(self):
+        return reverse_lazy("link_detail", kwargs={"pk": self.object.id})
+
+
+class LinkDetailView(LoginRequiredMixin, DetailView):
+    template_name = "links/partials/_link.html"
+    model = Link

@@ -1,0 +1,15 @@
+{% extends "links/partials/_link_base.html" %}
+{% block editable %}
+    <h3 class="prose text-xs">Notes</h3>
+    <form id="update-{{ link.id }}" hx-post="{% url 'link_update' link.id %}">
+        {% csrf_token %}
+        <textarea name="notes" class="textarea textarea-bordered w-full mb-2">{{link.notes}}</textarea>
+    </form>
+{% endblock editable %}
+{% block buttons %}
+    <button hx-get="{% url 'link_detail' link.id %}"
+            class="btn btn-primary btn-outline">Cancel</button>
+    <button type="submit" form="update-{{ link.id }}" class="btn btn-primary">Save</button>
+{% endblock buttons %}
+{% block actions %}
+{% endblock actions %}
