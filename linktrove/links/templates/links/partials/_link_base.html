@@ -9,7 +9,7 @@ H006 requires img to have a specific width and height and this is variable in th
     <figure class="w-1/3">
         <img class="w-full h-full object-cover"
              src="{{ link.thumbnail_or_default }}"
-             alt="Album" />
+             alt="{{ link.title }}" />
     </figure>
     <div class="card-body w-2/3 gap-0">
         <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
