@@ -15,7 +15,7 @@ class LinkCreateForm(forms.ModelForm):
                 }
             ),
             "notes": forms.Textarea(
-                attrs={"class": "textarea textarea-bordered w-full"}
+                attrs={"class": "textarea textarea-bordered leading-normal w-full"}
             ),
         }
 

@@ -15,7 +15,7 @@ H006 requires img to have a specific width and height and this is variable in th
         <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
         <h2 class="card-title first-letter:uppercase">{{ link.title|default:'Untitled' }}</h2>
         {% if link.description %}<p class="first-letter:uppercase prose text-xs">{{ link.description }}</p>{% endif %}
-        <div class="divider my-0"></div>
+        <div class="divider my-1"></div>
         {% block editable %}
         {% endblock editable %}
         <div class="card-actions flex items-center flex-nowrap gap-2">

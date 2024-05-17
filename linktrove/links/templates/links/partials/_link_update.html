@@ -3,7 +3,8 @@
     <h3 class="prose text-xs">Notes</h3>
     <form id="update-{{ link.id }}" hx-post="{% url 'link_update' link.id %}">
         {% csrf_token %}
-        <textarea name="notes" class="textarea textarea-bordered w-full mb-2">{{link.notes}}</textarea>
+        <textarea name="notes"
+                  class="textarea leading-normal textarea-bordered w-full my-1 px-2">{{link.notes}}</textarea>
     </form>
 {% endblock editable %}
 {% block buttons %}
