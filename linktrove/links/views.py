@@ -10,9 +10,7 @@ from .mixins import OwnLinkQuerysetMixin
 class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     model = Link
     paginate_by = 5
-
-    def get_queryset(self):
-        return super().get_queryset().order_by("-created")
+    ordering = "-created"
 
 
 class LinkCreateView(LoginRequiredMixin, CreateView):
