@@ -46,5 +46,5 @@ class LinkUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class LinkDetailView(LoginRequiredMixin, DetailView):
-    template_name = "links/partials/_link.html"
+    template_name = "links/partials/_link_detail.html"
     model = Link

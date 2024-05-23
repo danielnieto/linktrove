@@ -1,4 +1,4 @@
-{% extends "links/partials/_link_base.html" %}
+{% extends "links/partials/_link.html" %}
 {% block editable %}
     <h3 class="prose text-xs">Notes</h3>
     <form id="update-{{ link.id }}" hx-post="{% url 'link_update' link.id %}">

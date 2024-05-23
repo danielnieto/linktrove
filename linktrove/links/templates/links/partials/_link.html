@@ -1,54 +1,33 @@
-{% extends "links/partials/_link_base.html" %}
-{% block editable %}
-    <h3 class="prose text-xs">Notes</h3>
-    <p class="first-letter:uppercase">{{ link.notes|default:'--' }}</p>
-{% endblock editable %}
-{% block buttons %}
-    <a href="{{ link.url }}" target="_blank">
-        <button class="btn btn-primary">Open</button>
-    </a>
-{% endblock buttons %}
-{% block actions %}
-    <div class="dropdown dropdown-end absolute top-3 right-3 ">
-        <div tabindex="0" role="button" class="btn btn-square btn-sm btn-ghost">
-            <svg class="w-6 h-6"
-                 aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg"
-                 width="24"
-                 height="24"
-                 fill="none"
-                 viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-width="3" d="M6 12h.01m6 0h.01m5.99 0h.01" />
-            </svg>
+{% load link_extras %}
+{# djlint:off H006 #}
+{% comment %}
+H006 requires img to have a specific width and height and this is variable in this case
+{% endcomment %}
+<div class="card card-compact card-side bg-base-100 shadow-xl"
+     hx-target="this"
+     hx-swap="outerHTML">
+    <figure class="w-1/3">
+        <img class="w-full h-full object-cover"
+             src="{{ link.thumbnail_or_default }}"
+             alt="{{ link.title }}" />
+    </figure>
+    <div class="card-body w-2/3 gap-0">
+        <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
+        <h2 class="card-title first-letter:uppercase">{{ link.title|default:'Untitled' }}</h2>
+        {% if link.description %}<p class="first-letter:uppercase prose text-xs">{{ link.description }}</p>{% endif %}
+        <div class="divider my-1"></div>
+        {% block editable %}
+        {% endblock editable %}
+        <div class="card-actions flex items-center flex-nowrap gap-2">
+            <span title="{{ link.url|remove_protocol }}"
+                  class="overflow-ellipsis overflow-hidden text-xs prose whitespace-nowrap flex-auto flex gap-1 items-center">
+                {% if link.favicon %}<img src="{{ link.favicon }}" class="min-w-4 size-4" alt="{{ link.url }}" />{% endif %}
+                {{ link.url|remove_protocol }}
+            </span>
+            {% block buttons %}
+            {% endblock buttons %}
+            {% block actions %}
+            {% endblock actions %}
         </div>
-        <ul tabindex="0"
-            class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-                <a hx-get="{% url 'link_update' link.id %}">
-                    <svg class="w-6 h-6"
-                         aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="24"
-                         height="24"
-                         fill="none"
-                         viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z" />
-                    </svg>
-                Edit </a>
-            </li>
-            <li>
-                <a class="link-warning">
-                    <svg class="w-6 h-6"
-                         aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg"
-                         width="24"
-                         height="24"
-                         fill="none"
-                         viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                Remove </a>
-            </li>
-        </ul>
     </div>
-{% endblock actions %}
+</div>
