@@ -8,7 +8,6 @@ from .forms import LinkCreateForm
 
 class LinkListView(LoginRequiredMixin, ListView):
     model = Link
-    context_object_name = "links"
     paginate_by = 5
 
     def get_queryset(self):
