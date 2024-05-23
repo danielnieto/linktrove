@@ -4,15 +4,15 @@ from django.urls import reverse_lazy
 from linktrove.links.services import extract_metadata
 from .models import Link
 from .forms import LinkCreateForm
+from .mixins import OwnLinkQuerysetMixin
 
 
-class LinkListView(LoginRequiredMixin, ListView):
+class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     model = Link
     paginate_by = 5
 
     def get_queryset(self):
-        user = self.request.user
-        return Link.objects.filter(user=user).order_by("-created")
+        return super().get_queryset().order_by("-created")
 
 
 class LinkCreateView(LoginRequiredMixin, CreateView):
@@ -35,7 +35,7 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class LinkUpdateView(LoginRequiredMixin, UpdateView):
+class LinkUpdateView(LoginRequiredMixin, OwnLinkQuerysetMixin, UpdateView):
     template_name = "links/partials/_link_update.html"
     model = Link
     fields = ["notes"]
