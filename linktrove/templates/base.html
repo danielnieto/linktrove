@@ -20,7 +20,9 @@
         {% block extra_head %}
         {% endblock extra_head %}
     </head>
-    <body hx-boost="true" class="flex flex-col min-h-screen justify-center">
+    <body hx-boost="true"
+          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+          class="flex flex-col min-h-screen justify-center">
         {% block body %}
         {% endblock body %}
         {% block extra_body %}
