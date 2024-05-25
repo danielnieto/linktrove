@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
+{% block extra_head %}
+    <style>
+.card.delete {
+  opacity: 0;
+  transition: opacity .3s ease-out;
+}
+    </style>
+{% endblock extra_head %}
 {% block content %}
     <article class="grid grid-cols-1 gap-6">
         <div class="flex justify-end">
@@ -15,13 +23,22 @@
                 Add link
             </a>
         </div>
-        {% for link in link_list %}
-            {% include "links/partials/_link_detail.html" %}
-        {% empty %}
-            <div>No links found.</div>
-        {% endfor %}
+        <div id="link-list"
+             hx-get="{{ request.get_full_path }}"
+             hx-disinherit="hx-select"
+             hx-select="#link-list"
+             hx-swap="outerHTML"
+             hx-select-oob="#pagination:outerHTML"
+             hx-trigger="refresh-link-list from:body"
+             class="grid gap-6">
+            {% for link in link_list %}
+                {% include "links/partials/_link_detail.html" %}
+            {% empty %}
+                <div>No links found.</div>
+            {% endfor %}
+        </div>
     </article>
-    <div class="pagination flex mt-4">
+    <div id="pagination" class="pagination flex mt-4">
         <div class="join mx-auto grid grid-cols-3">
             {% if page_obj.has_previous %}
                 <a href="?page={{ page_obj.previous_page_number }}"

@@ -37,7 +37,10 @@
                 Edit </a>
             </li>
             <li>
-                <a hx-delete="{% url 'link_delete' link.id %}" class="link-warning">
+                <a hx-delete="{% url 'link_delete' link.id %}"
+                   hx-swap="outerHTML swap:.3s"
+                   hx-on:htmx:before-request="htmx.addClass(htmx.closest(this, '.card'), 'delete')"
+                   class="link-warning">
                     <svg class="w-6 h-6"
                          aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg"

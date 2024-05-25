@@ -1,5 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.views.generic import (
+    ListView,
+    CreateView,
+    UpdateView,
+    DetailView,
+    DeleteView,
+)
 from django.urls import reverse_lazy
 from linktrove.links.services import extract_metadata
 from .models import Link
@@ -45,3 +51,16 @@ class LinkUpdateView(LoginRequiredMixin, OwnLinkQuerysetMixin, UpdateView):
 class LinkDetailView(LoginRequiredMixin, DetailView):
     template_name = "links/partials/_link_detail.html"
     model = Link
+
+
+class LinkDeleteView(LoginRequiredMixin, OwnLinkQuerysetMixin, DeleteView):
+    model = Link
+
+    def get_success_url(self):
+        return None
+
+    def delete(self, *args, **kwargs):
+        response = super().delete(*args, **kwargs)
+        response.headers["HX-Trigger-After-Settle"] = "refresh-link-list"
+        response.status_code = 200
+        return response

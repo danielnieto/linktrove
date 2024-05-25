@@ -3,7 +3,8 @@
 {% comment %}
 H006 requires img to have a specific width and height and this is variable in this case
 {% endcomment %}
-<div class="card card-compact card-side bg-base-100 shadow-xl"
+<div id="link-{{ link.id }}"
+     class="card card-compact card-side bg-base-100 shadow-xl"
      hx-target="this"
      hx-swap="outerHTML">
     <figure class="w-1/3">
