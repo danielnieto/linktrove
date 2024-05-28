@@ -67,5 +67,10 @@ class LinkDeleteView(LoginRequiredMixin, OwnLinkQuerysetMixin, DeleteView):
         return response
 
 
+class LinkDeleteConfirmView(LoginRequiredMixin, DetailView):
+    model = Link
+    template_name = "links/partials/_delete_confirmation_dialog.html"
+
+
 def noop(request):
     return HttpResponse(request, "")

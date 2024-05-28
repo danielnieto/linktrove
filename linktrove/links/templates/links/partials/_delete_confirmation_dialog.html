@@ -1,0 +1,22 @@
+<div x-data="{'isOpen': true}" :open="isOpen" class="modal" role="dialog">
+    <div class="modal-box"
+         @click.outside="isOpen=false"
+         @keyup.escape.window="isOpen=false">
+        <h3 class="font-bold text-lg">Confirm</h3>
+        <p class="py-4">Are you sure you want to delete {{ link.url }}?</p>
+        <div class="modal-action">
+            <button class="btn btn-ghost"
+                    @click="isOpen=false"
+                    hx-get="{% url 'noop' %}"
+                    hx-target="closest .confirmation-dialog"
+                    hx-swap="innerHTML swap:.3s">Cancel</button>
+            <button class="btn btn-warning text-white"
+                    @click="isOpen=false"
+                    hx-delete="{% url 'link_delete' link.id %}"
+                    hx-swap="outerHTML swap:.6s"
+                    hx-on:htmx:before-request="htmx.addClass(htmx.closest(this, '.card'), 'delete', 300)">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>
