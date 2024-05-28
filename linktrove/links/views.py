@@ -11,6 +11,7 @@ from linktrove.links.services import extract_metadata
 from .models import Link
 from .forms import LinkCreateForm
 from .mixins import OwnLinkQuerysetMixin
+from django.http import HttpResponse
 
 
 class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
@@ -64,3 +65,7 @@ class LinkDeleteView(LoginRequiredMixin, OwnLinkQuerysetMixin, DeleteView):
         response.headers["HX-Trigger-After-Settle"] = "refresh-link-list"
         response.status_code = 200
         return response
+
+
+def noop(request):
+    return HttpResponse(request, "")

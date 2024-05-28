@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from linktrove.users.views import not_found
+from linktrove.links.views import noop
 
 
 class Base(TemplateView):
@@ -32,4 +33,5 @@ urlpatterns = [
     path("accounts/reauthenticate/", not_found),
     path("accounts/", include("allauth.urls")),
     path("", include("linktrove.links.urls")),
+    path("noop", noop, name="noop"),
 ]
