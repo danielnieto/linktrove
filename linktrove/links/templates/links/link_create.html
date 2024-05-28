@@ -9,9 +9,7 @@
                 <label for="{{ field.id_for_label }}" class="font-bold">{{ field.label }}</label>
                 {{ field }}
                 <div class="error">
-                    {% for error in field.errors %}
-                        {% include "links/partials/_form_error.html" with error=error %}
-                    {% endfor %}
+                    {% for error in field.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
                 </div>
             </div>
         {% endfor %}
