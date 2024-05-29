@@ -22,6 +22,7 @@ gunicorn = "^22.0.0"
 psycopg-binary = "^3.1.18"
 psycopg = "^3.1.18"
 factory-boy = "^3.3.0"
+django-taggit = "^5.0.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.2.1"

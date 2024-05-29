@@ -407,6 +407,20 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-taggit"
+version = "5.0.1"
+description = "django-taggit is a reusable Django application for simple tagging."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-taggit-5.0.1.tar.gz", hash = "sha256:edcd7db1e0f35c304e082a2f631ddac2e16ef5296029524eb792af7430cab4cc"},
+    {file = "django_taggit-5.0.1-py3-none-any.whl", hash = "sha256:a0ca8a28b03c4b26c2630fd762cb76ec39b5e41abf727a7b66f897a625c5e647"},
+]
+
+[package.dependencies]
+Django = ">=4.1"
+
+[[package]]
 name = "djlint"
 version = "1.34.1"
 description = "HTML Template Linter and Formatter"
@@ -1433,4 +1447,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d3e8b4fdd554d2c1c3b52173c02494dea92aca765d7c9089125fe2686c5f126d"
+content-hash = "a6a6a985d2ad83663219971cba48961b87e6d9d6cfd84f406b6f60c9f19880f6"
