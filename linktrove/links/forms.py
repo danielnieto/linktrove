@@ -5,7 +5,7 @@ from .models import Link
 class LinkCreateForm(forms.ModelForm):
     class Meta:
         model = Link
-        fields = ["url", "notes"]
+        fields = ["url", "notes", "tags"]
 
         widgets = {
             "url": forms.URLInput(
