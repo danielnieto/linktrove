@@ -22,3 +22,17 @@ class LinkCreateForm(forms.ModelForm):
     def clean_url(self):
         # remove trailing slashes
         return self.cleaned_data.get("url", "").rstrip("/")
+
+
+class LinkUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        fields = ["notes", "tags"]
+
+        widgets = {
+            "notes": forms.Textarea(
+                attrs={
+                    "class": "textarea leading-normal textarea-bordered w-full my-1 px-2"
+                }
+            )
+        }
