@@ -1,5 +1,6 @@
 from django import forms
 from .models import Link
+from .widgets import TagsWidget
 
 
 class LinkCreateForm(forms.ModelForm):
@@ -16,6 +17,9 @@ class LinkCreateForm(forms.ModelForm):
             ),
             "notes": forms.Textarea(
                 attrs={"class": "textarea textarea-bordered leading-normal w-full"}
+            ),
+            "tags": TagsWidget(
+                attrs={"class": "input input-bordered w-full my-1 px-2"}
             ),
         }
 
@@ -34,5 +38,8 @@ class LinkUpdateForm(forms.ModelForm):
                 attrs={
                     "class": "textarea leading-normal textarea-bordered w-full my-1 px-2"
                 }
-            )
+            ),
+            "tags": TagsWidget(
+                attrs={"class": "input input-bordered w-full my-1 px-2"}
+            ),
         }

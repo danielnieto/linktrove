@@ -1,0 +1,63 @@
+<div
+    {# djlint:off #}
+    x-data="
+    {
+      tags: [],
+      newTag: '',
+      pattern: /[^A-Za-z0-9\-]/g,
+      init: function() {
+        const initialValue = $refs.input.value;
+        if (!initialValue) {
+          return;
+        }
+        initialValue.split(',').forEach(tag => this.tags.push(tag.trim()));
+      },
+      addTag: function(event) {
+        if (this.tags.indexOf(this.newTag) > -1 || !this.newTag) {
+          return;
+        }
+        this.tags.push(this.newTag);
+        this.newTag = '';
+      },
+      removeTag: function(tag) {
+        this.tags.splice(this.tags.indexOf(tag), 1);
+      },
+      preventInvalid: function(event) {
+        if (this.pattern.test(event.key) && event.key.length === 1) {
+          event.preventDefault();
+        }
+      },
+      filterInput: function(event) {
+        this.newTag = event.target.value.replace(this.pattern, '');
+      }
+    }
+    "
+    {# djlint:on #}
+    >
+    <input {% include "django/forms/widgets/attrs.html" %}
+           x-model="newTag"
+           @keydown.enter.prevent="addTag"
+           @keydown="preventInvalid"
+           @input="filterInput"
+           placeholder="Add tag...">
+</input>
+<input x-ref="input"
+       x-model="tags"
+       type="hidden"
+       name="{{ widget.name }}"
+       {% if widget.value != None %}value="{{ widget.value|stringformat:'s' }}"{% endif %}>
+<div class="flex flex-wrap gap-1 my-2">
+    <template x-for="tag in tags">
+        <div class="badge bg-gray-200">
+            <span class="first-letter:uppercase" x-text="tag"></span>
+            <svg @click="removeTag(tag)"
+                 xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 class="inline-block w-4 h-4 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </div>
+    </template>
+</div>
+</div>
