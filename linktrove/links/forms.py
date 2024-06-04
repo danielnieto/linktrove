@@ -24,12 +24,5 @@ class LinkUpdateForm(forms.ModelForm):
         fields = ["notes", "tags"]
 
         widgets = {
-            "notes": forms.Textarea(
-                attrs={
-                    "class": "textarea leading-normal textarea-bordered w-full my-1 px-2"
-                }
-            ),
-            "tags": TagsWidget(
-                attrs={"class": "input input-bordered w-full my-1 px-2"}
-            ),
+            "tags": TagsWidget(),
         }
