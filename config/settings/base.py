@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "taggit",
+    "widget_tweaks",
     "linktrove.users",
     "linktrove.links",
 ]
