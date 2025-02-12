@@ -1,12 +1,11 @@
-<div
-    {# djlint:off #}
-    x-data="
-    {
+<script>
+Alpine.data('TagsWidget', function(){
+  return {
       tags: [],
       newTag: '',
       pattern: /[^A-Za-z0-9\-]/g,
       init: function() {
-        const initialValue = $refs.input.value;
+        const initialValue = this.$refs.input.value;
         if (!initialValue) {
           return;
         }
@@ -31,9 +30,10 @@
         this.newTag = event.target.value.replace(this.pattern, '');
       }
     }
-    "
-    {# djlint:on #}
-    >
+
+});
+</script>
+<div x-data="TagsWidget">
     <input {% include "django/forms/widgets/attrs.html" %}
            x-model="newTag"
            @keydown.enter.prevent="addTag"
@@ -46,6 +46,7 @@
        type="hidden"
        name="{{ widget.name }}"
        {% if widget.value != None %}value="{{ widget.value|stringformat:'s' }}"{% endif %}>
+</input>
 <div class="flex flex-wrap gap-1 my-2">
     <template x-for="tag in tags">
         <div class="badge bg-gray-200">
