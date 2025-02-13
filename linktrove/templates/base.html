@@ -15,13 +15,12 @@
             {% endblock head_title %}
         </title>
         <link href="{% static 'dist/css/styles.css' %}" rel="stylesheet">
-        <script src="{% static 'vendor/htmx.min.js' %}"></script>
-        <script defer src="{% static 'vendor/alpine.min.js' %}"></script>
+        <script src="{% static 'vendor/htmx@2.0.4.min.js' %}"></script>
+        <script defer src="{% static 'vendor/alpine@3.14.8.min.js' %}"></script>
         {% block extra_head %}
         {% endblock extra_head %}
     </head>
-    <body hx-boost="true"
-          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
           class="flex flex-col min-h-screen justify-center">
         {% block body %}
         {% endblock body %}

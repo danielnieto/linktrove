@@ -1,0 +1,19 @@
+<input
+    {# djlint:off #}
+    x-data="
+    {
+      url: '',
+      prependProtocol: function() {
+         if (!~this.url.indexOf('http')) {
+             this.url = 'https://' + this.url;
+         }
+      }
+    }
+    "
+    {# djlint:on #}
+    x-model="url"
+    @change="prependProtocol"
+    type="{{ widget.type }}"
+    name="{{ widget.name }}"
+    {% if widget.value != None %}value="{{ widget.value|stringformat:'s' }}"{% endif %}
+    {% include "django/forms/widgets/attrs.html" %}>

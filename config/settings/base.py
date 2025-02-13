@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "allauth",
     "allauth.account",
+    "taggit",
+    "widget_tweaks",
     "linktrove.users",
     "linktrove.links",
 ]
@@ -162,3 +164,5 @@ ACCOUNT_FORMS = {
     "reset_password": "linktrove.users.forms.CustomResetPasswordForm",
     "signup": "linktrove.users.forms.CustomSignupForm",
 }
+
+TAGGIT_CASE_INSENSITIVE = True

@@ -14,7 +14,7 @@ H006 requires img to have a specific width and height and this is variable in th
     </figure>
     <div class="card-body w-2/3 gap-0">
         <span class="prose text-xs">{{ link.created|date:"d F Y" }}</span>
-        <h2 class="card-title first-letter:uppercase">{{ link.title|default:'Untitled' }}</h2>
+        <h2 class="card-title first-letter:uppercase truncate">{{ link.title|default:'Untitled' }}</h2>
         {% if link.description %}<p class="first-letter:uppercase prose text-xs">{{ link.description }}</p>{% endif %}
         <div class="divider my-1"></div>
         {% block editable %}
