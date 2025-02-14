@@ -1,5 +1,5 @@
 <script>
-Alpine.data('TagsWidget', function(){
+AlpineData('TagsWidget', function(){
   return {
       tags: [],
       newTag: '',
@@ -30,7 +30,6 @@ Alpine.data('TagsWidget', function(){
         this.newTag = event.target.value.replace(this.pattern, '');
       }
     }
-
 });
 </script>
 <div x-data="TagsWidget">
