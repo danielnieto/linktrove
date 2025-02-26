@@ -47,3 +47,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+
+    def get_used_tags(self):
+        """Returns all tags used by this user on their links"""
+        from taggit.models import Tag
+
+        return Tag.objects.filter(
+            links_taggedlink_items__content_object__user=self
+        ).distinct()
