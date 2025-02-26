@@ -12,6 +12,10 @@ from .models import Link
 from .forms import LinkCreateForm, LinkUpdateForm
 from .mixins import OwnLinkQuerysetMixin
 from django.http import HttpResponse
+from django.shortcuts import render
+
+
+MAX_SUGGESTED_TAGS = 5
 
 
 class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
@@ -74,3 +78,17 @@ class LinkDeleteConfirmView(LoginRequiredMixin, DetailView):
 
 def noop(request):
     return HttpResponse(request, "")
+
+
+def widget_tags_search(request):
+    tag_search = request.GET.get("q")
+    filtered_tags = request.user.get_used_tags()
+
+    if tag_search:
+        filtered_tags = filtered_tags.filter(name__icontains=tag_search)
+
+    return render(
+        request,
+        "links/widgets/_tags_suggestions.html",
+        {"tags": filtered_tags[:MAX_SUGGESTED_TAGS]},
+    )

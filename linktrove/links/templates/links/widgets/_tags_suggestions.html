@@ -1,0 +1,16 @@
+{% for tag in tags %}
+    <li>
+        <a data-suggestion="{{ forloop.counter0 }}"
+           data-value="{{ tag.name }}"
+           :class="{'active': selectedSuggestion == $el.dataset.suggestion}"
+           @click="selectedSuggestion=$el.dataset.suggestion; addTag()">{{ tag.name }}</a>
+    </li>
+{% empty %}
+    <li>
+        <a data-suggestion="0" :data-value="tagToAdd" class="active">
+            <span>
+                Create "<span class="px-0 mx-0" x-text="tagToAdd"></span>"
+            </span>
+        </a>
+    </li>
+{% endfor %}
