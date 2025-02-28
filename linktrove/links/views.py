@@ -13,6 +13,7 @@ from .forms import LinkCreateForm, LinkUpdateForm
 from .mixins import OwnLinkQuerysetMixin
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.db.models import Q
 
 
 MAX_SUGGESTED_TAGS = 5
@@ -22,6 +23,24 @@ class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     model = Link
     paginate_by = 5
     ordering = "-created"
+
+    def get_template_names(self):
+        if "HX-Request" in self.request.headers:
+            return ["links/partials/_link_list_and_pagination.html"]
+        return super().get_template_names()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get("search")
+
+        if query:
+            qs = qs.filter(
+                Q(url__icontains=query)
+                | Q(title__icontains=query)
+                | Q(description__icontains=query)
+                | Q(notes__icontains=query)
+            )
+        return qs
 
 
 class LinkCreateView(LoginRequiredMixin, CreateView):

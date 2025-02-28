@@ -1,0 +1,26 @@
+<div id="link-list" class="grid grid-cols-1 gap-6 mt-6">
+    {% for link in link_list %}
+        {% include "links/partials/_link_detail.html" %}
+    {% empty %}
+        <div>No links found.</div>
+    {% endfor %}
+</div>
+<div id="pagination" class="pagination flex mt-4">
+    <div class="join mx-auto grid grid-cols-3">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"
+               class="join-item btn">«</a>
+        {% else %}
+            <button disabled class="join-item btn disabled:bg-gray-100">«</button>
+        {% endif %}
+        <button disabled
+                class="join-item btn disabled:text-base-content disabled:bg-gray-50">
+            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </button>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">»</a>
+        {% else %}
+            <button disabled class="join-item btn disabled:bg-gray-100">»</button>
+        {% endif %}
+    </div>
+</div>
