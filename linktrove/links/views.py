@@ -22,10 +22,7 @@ class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     ordering = "-created"
 
     def get_template_names(self):
-        if (
-            "hx-request" in self.request.headers
-            and "hx-history-restore-request" not in self.request.headers
-        ):
+        if self.request.htmx and not self.request.htmx.history_restore_request:
             return ["links/partials/_link_list_and_pagination.html"]
         return super().get_template_names()
 
