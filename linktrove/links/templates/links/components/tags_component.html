@@ -10,8 +10,8 @@ AlpineData('Tags', function(){
       init: function() {
 
         this.$watch('selectedSuggestion', ()=>{
-          let selectedLi = this.$refs.list.querySelector(`li > [data-suggestion='${this.selectedSuggestion}']`).closest('li');
-          selectedLi.scrollIntoView(false);
+          const selectedLi = this.$refs.list.querySelector(`li > [data-suggestion='${this.selectedSuggestion}']`)?.closest('li');
+          selectedLi?.scrollIntoView(false);
         });
 
         const initialValue = this.$refs.input.value;
