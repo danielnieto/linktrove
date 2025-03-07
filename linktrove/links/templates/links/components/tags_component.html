@@ -1,0 +1,120 @@
+{% load link_extras %}
+<script>
+AlpineData('Tags', function(){
+  return {
+      tags: [],
+      tagToAdd: '',
+      pattern: /[^A-Za-z0-9\-]/g,
+      selectedSuggestion: 0,
+      numSuggestions: 0,
+      init: function() {
+
+        this.$watch('selectedSuggestion', ()=>{
+          let selectedLi = this.$refs.list.querySelector(`li > [data-suggestion='${this.selectedSuggestion}']`).closest('li');
+          selectedLi.scrollIntoView(false);
+        });
+
+        const initialValue = this.$refs.input.value;
+        if (initialValue) {
+          initialValue.split(',').forEach(tag => this.tags.push(tag.trim()));
+        }
+
+      },
+      addTag: function() {
+        const suggestionEl = this.$refs.list.querySelector(`[data-suggestion='${this.selectedSuggestion}']`);
+        if (!suggestionEl){
+          return
+        }
+        this.tagToAdd = suggestionEl.dataset.value;
+        if (this.tags.indexOf(this.tagToAdd) > -1 || !this.tagToAdd) {
+          return;
+        }
+        this.tags.push(this.tagToAdd);
+        this.tagToAdd = '';
+        this.$dispatch('addtag')
+      },
+      removeTag: function(tag) {
+        this.tags.splice(this.tags.indexOf(tag), 1);
+      },
+      filterInput: function(event) {
+        this.tagToAdd = event.target.value.replace(this.pattern, '');
+      },
+      previousSuggestion: function(event){
+          this.selectedSuggestion--;
+          if (this.selectedSuggestion < 0) {
+            this.selectedSuggestion = this.numSuggestions - 1;
+          }
+      },
+      nextSuggestion: function(event){
+          this.selectedSuggestion++;
+          if (this.selectedSuggestion > this.numSuggestions - 1) {
+            this.selectedSuggestion = 0;
+          }
+      },
+      afterHTMXSwap: function(event){
+        this.numSuggestions = this.$refs.list.querySelectorAll('[data-suggestion]').length;
+      },
+      beforeSendHTMXRequest: function(){
+        this.selectedSuggestion = 0;
+      }
+    }
+});
+</script>
+<div x-data="Tags" class="flex gap-1 items-center">
+    <h3 class="prose text-xs">Tags</h3>
+    <div class="flex flex-wrap gap-1 my-2">
+        <template x-for="tag in tags">
+            <div class="badge bg-gray-200 overflow-hidden pr-8 relative">
+                <span class="first-letter:uppercase" x-text="tag"></span>
+                <div @click="removeTag(tag)"
+                     class="btn bg-gray-300 btn-ghost absolute right-0 origin-right p-1 rounded-none">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="w-4 h-4 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+            </div>
+        </template>
+    </div>
+    <div class="dropdown">
+        <div tabindex="0"
+             role="button"
+             class="btn btn-xs square"
+             @focus="$refs.search.focus()"
+             @blur="tagToAdd=''">+</div>
+        <div tabindex="-1"
+             class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <input x-ref="search"
+                   type="text"
+                   class="input input-bordered input-sm mb-2"
+                   placeholder="search tag"
+                   name="q"
+                   x-model="tagToAdd"
+                   @keydown.up.prevent="previousSuggestion"
+                   @keydown.down.prevent="nextSuggestion"
+                   @keydown.tab.prevent="nextSuggestion"
+                   @keydown.enter.prevent="addTag"
+                   @input="filterInput"
+                   hx-get="{% url 'tag_list' %}"
+                   hx-trigger="input delay:300ms, focus from:previous [role='button'], addtag from:closest [x-data='Tags'] delay:100ms"
+                   hx-include="closest [x-data='Tags']"
+                   hx-target="next ul"
+                   hx-swap="innerHTML"
+                   autocomplete="off"
+                   @htmx:before-send.camel="beforeSendHTMXRequest" />
+            <ul x-ref="list"
+                class="max-h-96 overflow-y-auto"
+                @htmx:after-settle.camel="afterHTMXSwap">
+                <li>loading tags...</li>
+            </ul>
+        </div>
+    </div>
+    <input x-ref="input"
+           x-model="tags"
+           type="hidden"
+           name="{{ field_name }}"
+           value="{{ initial_value|stringformat:'s' }}" />
+    <input type="hidden" name="create" value="{{ create_tags|lower }}" />
+</div>

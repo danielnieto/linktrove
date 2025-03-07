@@ -5,7 +5,6 @@
     <form id="update-{{ link.id }}" hx-post="{% url 'link_update' link.id %}">
         {% csrf_token %}
         {% render_field form.notes class+="textarea leading-normal textarea-bordered w-full my-1 px-2" %}
-        <h3 class="prose text-xs">Tags</h3>
         {% render_field form.tags class+="input input-bordered w-full my-1 px-2" %}
     </form>
 {% endblock editable %}

@@ -10,13 +10,10 @@ from django.urls import reverse_lazy
 from linktrove.links.services import extract_metadata
 from .models import Link
 from .forms import LinkCreateForm, LinkUpdateForm
-from .mixins import OwnLinkQuerysetMixin
+from .mixins import OwnLinkQuerysetMixin, OwnTagQuerysetMixin
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.db.models import Q
-
-
-MAX_SUGGESTED_TAGS = 5
+from taggit.models import Tag
 
 
 class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
@@ -25,13 +22,17 @@ class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     ordering = "-created"
 
     def get_template_names(self):
-        if "HX-Request" in self.request.headers:
+        if (
+            "hx-request" in self.request.headers
+            and "hx-history-restore-request" not in self.request.headers
+        ):
             return ["links/partials/_link_list_and_pagination.html"]
         return super().get_template_names()
 
     def get_queryset(self):
         qs = super().get_queryset()
         query = self.request.GET.get("search")
+        tags = self.request.GET.get("tags", "")
 
         if query:
             qs = qs.filter(
@@ -40,6 +41,11 @@ class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
                 | Q(description__icontains=query)
                 | Q(notes__icontains=query)
             )
+
+        if tags:
+            for tag in tags.split(","):
+                qs = qs.filter(tags__name=tag.strip())
+
         return qs
 
 
@@ -99,15 +105,21 @@ def noop(request):
     return HttpResponse(request, "")
 
 
-def widget_tags_search(request):
-    tag_search = request.GET.get("q")
-    filtered_tags = request.user.get_used_tags()
+class TagListView(LoginRequiredMixin, OwnTagQuerysetMixin, ListView):
+    model = Tag
+    context_object_name = "tags"
+    template_name = "links/components/partials/_tag_list.html"
 
-    if tag_search:
-        filtered_tags = filtered_tags.filter(name__icontains=tag_search)
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get("q")
+        tags = self.request.GET.get("tags", "")
 
-    return render(
-        request,
-        "links/widgets/_tags_suggestions.html",
-        {"tags": filtered_tags[:MAX_SUGGESTED_TAGS]},
-    )
+        if tags:
+            exclude_tags = [tag.strip() for tag in tags.split(",")]
+            qs = qs.exclude(name__in=exclude_tags)
+
+        if query:
+            qs = qs.filter(name__icontains=query)
+
+        return qs

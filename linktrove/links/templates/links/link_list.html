@@ -28,20 +28,26 @@
               action="{% url 'link_list' %}"
               hx-get="{% url 'link_list' %}"
               hx-target="#link-list-and-pagination"
-              hx-push-url="true">
-            <label class="input input-bordered flex items-center gap-2">
+              hx-push-url="true"
+              hx-disinherit="hx-push-url hx-params"
+              hx-params="search, tags">
+            <div class="join flex">
                 <input type="text"
                        name="search"
-                       class="grow"
+                       class="grow join-item input input-bordered flex items-center gap-2 mb-1"
                        placeholder="Search"
+                       autofocus
                        value="{{ request.GET.search }}" />
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 16 16"
-                     fill="currentColor"
-                     class="h-4 w-4 opacity-70">
-                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                </svg>
-            </label>
+                <button type="submit" class="btn btn-primary origin-left join-item">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 16 16"
+                         fill="currentColor"
+                         class="h-6 w-6">
+                        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            {% include "links/components/tags_component.html" with field_name="tags" initial_value=request.GET.tags %}
         </form>
         <div id="link-list-and-pagination"
              hx-get="{{ request.get_full_path }}"

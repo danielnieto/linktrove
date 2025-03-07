@@ -6,7 +6,7 @@ from .views import (
     LinkDetailView,
     LinkDeleteView,
     LinkDeleteConfirmView,
-    widget_tags_search,
+    TagListView,
 )
 
 
@@ -21,5 +21,5 @@ urlpatterns = [
         LinkDeleteConfirmView.as_view(),
         name="link_delete_confirm",
     ),
-    path("widgets/tags-search", widget_tags_search, name="widget_tags_search"),
+    path("tags/", TagListView.as_view(), name="tag_list"),
 ]
