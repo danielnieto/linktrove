@@ -14,6 +14,14 @@ AlpineData('Tags', function(){
           selectedLi?.scrollIntoView(false);
         });
 
+      this.$watch('tags', (value, oldValue) => {
+        if (oldValue.length > value.length) {
+          this.$dispatch('removetag');
+        }else{
+          this.$dispatch('addtag');
+        }
+      });
+
         const initialValue = this.$refs.input.value;
         if (initialValue) {
           initialValue.split(',').forEach(tag => this.tags.push(tag.trim()));
@@ -31,7 +39,6 @@ AlpineData('Tags', function(){
         }
         this.tags.push(this.tagToAdd);
         this.tagToAdd = '';
-        this.$dispatch('addtag')
       },
       removeTag: function(tag) {
         this.tags.splice(this.tags.indexOf(tag), 1);
