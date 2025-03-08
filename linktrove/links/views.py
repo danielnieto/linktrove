@@ -22,7 +22,7 @@ class LinkListView(LoginRequiredMixin, OwnLinkQuerysetMixin, ListView):
     ordering = "-created"
 
     def get_template_names(self):
-        if self.request.htmx and not self.request.htmx.history_restore_request:
+        if self.request.htmx.trigger == "search-form":
             return ["links/partials/_link_list_and_pagination.html"]
         return super().get_template_names()
 
