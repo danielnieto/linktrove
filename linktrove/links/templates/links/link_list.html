@@ -15,7 +15,7 @@ AlpineData('Search', function(){
       },
       clearSearch: function(){
         this.search = '';
-        this.$dispatch('input');
+        this.$nextTick(() => {this.$dispatch('clear')});
       },
       isClearButtonVisible() {
         return this.search.length > 0;
@@ -49,7 +49,7 @@ AlpineData('Search', function(){
               hx-push-url="true"
               hx-disinherit="hx-push-url hx-params"
               hx-params="search, tags"
-              hx-trigger="submit, input delay:300ms, addtag, removetag">
+              hx-trigger="submit, input from:find [name='search'] delay:300ms, addtag, removetag, clear">
             <label x-data="Search"
                    class="input input-bordered flex items-center gap-2 mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg"
