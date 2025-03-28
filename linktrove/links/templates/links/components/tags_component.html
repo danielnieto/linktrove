@@ -64,7 +64,7 @@ AlpineData('Tags', function(){
           this.$refs.list.querySelector('a.active')?.classList.remove('active');
           this.selectedSuggestion = a.dataset.value;
           if(!this.selectedSuggestion) return;
-          this.suggestionEls[this.selectedIdx].scrollIntoView(false);
+          this.suggestionEls[this.selectedIdx].scrollIntoView({ block: 'nearest' });
           a.classList.add('active');
       },
       configRequest: function(event){
