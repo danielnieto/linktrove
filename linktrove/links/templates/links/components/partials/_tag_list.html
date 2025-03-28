@@ -1,24 +1,16 @@
 {% for tag in tags %}
     <li>
-        <a data-suggestion="{{ forloop.counter0 }}"
-           data-value="{{ tag.name }}"
-           :class="{'active': selectedSuggestion == $el.dataset.suggestion}"
-           @click="selectedSuggestion = parseInt($el.dataset.suggestion); addTag()">{{ tag.name }}</a>
+        <a data-value="{{ tag.name }}"
+           {% if forloop.first %}class="active"{% endif %}
+           @click="selectedSuggestion = $el.dataset.value; addTag(); $refs.search.focus()">{{ tag.name }}</a>
     </li>
 {% empty %}
-    {% if request.GET.create == 'true' %}
-        <template x-if="tagToAdd && !tags.includes(tagToAdd)">
-            <li>
-                <a data-suggestion="0"
-                   :data-value="tagToAdd"
-                   class="active"
-                   @click="selectedSuggestion = 0; addTag()">
-                    <span>
-                        Create "<span class="px-0 mx-0" x-text="tagToAdd"></span>"
-                    </span>
-                </a>
-            </li>
-        </template>
+    {% if can_add_new_tag %}
+        <li>
+            <a data-value="{{ tag_to_add }}" class="active" @click="addTag()">
+                <span>Create "{{ tag_to_add }}"</span>
+            </a>
+        </li>
     {% else %}
         <li>
             <a>Tag not found</a>

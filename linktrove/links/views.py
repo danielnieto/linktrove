@@ -107,16 +107,30 @@ class TagListView(LoginRequiredMixin, OwnTagQuerysetMixin, ListView):
     context_object_name = "tags"
     template_name = "links/components/partials/_tag_list.html"
 
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.query = request.GET.get("q", "").strip()
+        self.selected_tags = [
+            tag.strip()
+            for tag in request.GET.get("tags", "").strip().split(",")
+            if tag.strip()
+        ]
+
     def get_queryset(self):
         qs = super().get_queryset()
-        query = self.request.GET.get("q")
-        tags = self.request.GET.get("tags", "")
 
-        if tags:
-            exclude_tags = [tag.strip() for tag in tags.split(",")]
-            qs = qs.exclude(name__in=exclude_tags)
+        if self.selected_tags:
+            qs = qs.exclude(name__in=self.selected_tags)
 
-        if query:
-            qs = qs.filter(name__icontains=query)
+        if self.query:
+            qs = qs.filter(name__icontains=self.query)
 
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["can_add_new_tag"] = (
+            self.request.GET.get("create") and self.query not in self.selected_tags
+        )
+        context["tag_to_add"] = self.query
+        return context

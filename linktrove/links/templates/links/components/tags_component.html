@@ -5,14 +5,10 @@ AlpineData('Tags', function(){
       tags: [],
       tagToAdd: '',
       pattern: /[^A-Za-z0-9\-]/g,
-      selectedSuggestion: 0,
-      numSuggestions: 0,
+      suggestionEls: [],
+      selectedSuggestion: '',
+      selectedIdx: 0,
       init: function() {
-
-        this.$watch('selectedSuggestion', ()=>{
-          const selectedLi = this.$refs.list.querySelector(`li > [data-suggestion='${this.selectedSuggestion}']`)?.closest('li');
-          selectedLi?.scrollIntoView(false);
-        });
 
       this.$watch('tags', (value, oldValue) => {
         if (oldValue.length > value.length) {
@@ -22,22 +18,22 @@ AlpineData('Tags', function(){
         }
       });
 
+        this.$watch('selectedIdx', ()=>{
+          this.updateSelectedSuggestion();
+        });
+
         const initialValue = this.$refs.input.value;
         if (initialValue) {
           initialValue.split(',').forEach(tag => this.tags.push(tag.trim()));
         }
-
       },
       addTag: function() {
-        const suggestionEl = this.$refs.list.querySelector(`[data-suggestion='${this.selectedSuggestion}']`);
-        if (!suggestionEl){
-          return
-        }
-        this.tagToAdd = suggestionEl.dataset.value;
-        if (this.tags.indexOf(this.tagToAdd) > -1 || !this.tagToAdd) {
+        const noSelection = !this.selectedSuggestion;
+        const alreadyInList = this.tags.indexOf(this.selectedSuggestion) > -1;
+        if (noSelection || alreadyInList) {
           return;
         }
-        this.tags.push(this.tagToAdd);
+        this.tags.push(this.selectedSuggestion);
         this.tagToAdd = '';
       },
       removeTag: function(tag) {
@@ -47,22 +43,29 @@ AlpineData('Tags', function(){
         this.tagToAdd = event.target.value.replace(this.pattern, '');
       },
       previousSuggestion: function(event){
-          this.selectedSuggestion--;
-          if (this.selectedSuggestion < 0) {
-            this.selectedSuggestion = this.numSuggestions - 1;
+          this.selectedIdx--;
+          if(this.selectedIdx < 0) {
+            this.selectedIdx = this.suggestionEls.length - 1;
           }
       },
       nextSuggestion: function(event){
-          this.selectedSuggestion++;
-          if (this.selectedSuggestion > this.numSuggestions - 1) {
-            this.selectedSuggestion = 0;
+          this.selectedIdx++;
+          if(this.selectedIdx >= this.suggestionEls.length) {
+            this.selectedIdx = 0;
           }
       },
       afterHTMXSwap: function(event){
-        this.numSuggestions = this.$refs.list.querySelectorAll('[data-suggestion]').length;
+        this.suggestionEls = Array.from(this.$refs.list.querySelectorAll('li'));
+        this.selectedIdx = 0;
+        this.updateSelectedSuggestion();
       },
-      beforeSendHTMXRequest: function(){
-        this.selectedSuggestion = 0;
+      updateSelectedSuggestion: function(){
+          const a = this.suggestionEls[this.selectedIdx].querySelector('a');
+          this.$refs.list.querySelector('a.active')?.classList.remove('active');
+          this.selectedSuggestion = a.dataset.value;
+          if(!this.selectedSuggestion) return;
+          this.suggestionEls[this.selectedIdx].scrollIntoView(false);
+          a.classList.add('active');
       },
       configRequest: function(event){
         this.$root.querySelectorAll('input[data-param]').forEach((el)=>{
@@ -116,7 +119,6 @@ AlpineData('Tags', function(){
                    hx-target="next ul"
                    hx-swap="innerHTML"
                    autocomplete="off"
-                   @htmx:before-send.camel="beforeSendHTMXRequest"
                    @htmx:config-request.camel="configRequest" />
             <ul x-ref="list"
                 class="max-h-96 overflow-y-auto"
