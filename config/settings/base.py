@@ -151,14 +151,13 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = "users.User"
 
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_SESSION_REMEMBER = True
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_USER_DISPLAY = "linktrove.users.utils.get_user_display"
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_FORMS = {
     "login": "linktrove.users.forms.CustomLoginForm",
