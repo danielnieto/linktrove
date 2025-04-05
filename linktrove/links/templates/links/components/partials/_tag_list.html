@@ -1,0 +1,23 @@
+{% for tag in tags %}
+    <li>
+        <a data-suggestion="{{ forloop.counter0 }}"
+           data-value="{{ tag.name }}"
+           :class="{'active': selectedIdx == parseInt($el.dataset.suggestion)}"
+           @click="selectedIdx = parseInt($el.dataset.suggestion); addTag();">{{ tag.name }}</a>
+    </li>
+{% empty %}
+    {% if can_add_new_tag and tag_to_add %}
+        <li>
+            <a data-suggestion="0"
+               class="active"
+               data-value="{{ tag_to_add }}"
+               @click="selectedIdx = parseInt($el.dataset.suggestion); addTag();">
+                <span>Create "{{ tag_to_add }}"</span>
+            </a>
+        </li>
+    {% else %}
+        <li>
+            <a>Tag not found</a>
+        </li>
+    {% endif %}
+{% endfor %}

@@ -6,6 +6,23 @@
   transition: opacity .3s ease-out;
 }
     </style>
+    <script>
+AlpineData('Search', function(){
+  return {
+      search: '',
+      init: function() {
+        this.search = this.$refs.search.value;
+      },
+      clearSearch: function(){
+        this.search = '';
+        this.$nextTick(() => {this.$dispatch('clear')});
+      },
+      isClearButtonVisible() {
+        return this.search.length > 0;
+      }
+    }
+});
+    </script>
 {% endblock extra_head %}
 {% block content %}
     <article>
@@ -23,38 +40,49 @@
                 Add link
             </a>
         </div>
-        <div id="link-list"
+        <form class="my-4"
+              id="search-form"
+              method="get"
+              action="{% url 'link_list' %}"
+              hx-get="{% url 'link_list' %}"
+              hx-target="#link-list-and-pagination"
+              hx-push-url="true"
+              hx-disinherit="hx-push-url hx-params"
+              hx-trigger="submit, input from:find [name='search'] delay:300ms, addtag, removetag, clear">
+            <label x-data="Search"
+                   class="input input-bordered flex items-center gap-2 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 16 16"
+                     fill="currentColor"
+                     class="h-4 w-4 opacity-70">
+                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                </svg>
+                <input type="text"
+                       name="search"
+                       x-ref="search"
+                       class="grow"
+                       x-model="search"
+                       placeholder="Search"
+                       autofocus
+                       value="{{ request.GET.search }}" />
+                <div x-cloak
+                     class="btn btn-ghost btn-xs btn-square"
+                     @click="clearSearch"
+                     :class="{'hidden': !isClearButtonVisible()}">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="w-4 h-4 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+            </label>
+            {% include "links/components/tags_component.html" with field_name="tags" initial_value=request.GET.tags %}
+        </form>
+        <div id="link-list-and-pagination"
              hx-get="{{ request.get_full_path }}"
-             hx-disinherit="hx-select"
-             hx-select="#link-list"
-             hx-swap="outerHTML"
-             hx-select-oob="#pagination:outerHTML"
-             hx-trigger="refresh-link-list from:body"
-             class="grid grid-cols-1 gap-6 mt-6">
-            {% for link in link_list %}
-                {% include "links/partials/_link_detail.html" %}
-            {% empty %}
-                <div>No links found.</div>
-            {% endfor %}
+             hx-trigger="refresh-link-list from:body">
+            {% include "links/partials/_link_list_and_pagination.html" %}
         </div>
     </article>
-    <div id="pagination" class="pagination flex mt-4">
-        <div class="join mx-auto grid grid-cols-3">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}"
-                   class="join-item btn">«</a>
-            {% else %}
-                <button disabled class="join-item btn disabled:bg-gray-100">«</button>
-            {% endif %}
-            <button disabled
-                    class="join-item btn disabled:text-base-content disabled:bg-gray-50">
-                {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
-            </button>
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">»</a>
-            {% else %}
-                <button disabled class="join-item btn disabled:bg-gray-100">»</button>
-            {% endif %}
-        </div>
-    </div>
 {% endblock content %}

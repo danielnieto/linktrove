@@ -5,9 +5,10 @@
     <h3 class="prose text-xs my-2">Tags</h3>
     <div class="flex flex-wrap gap-1">
         {% for tag in link.tags.all %}
-            <div class="badge bg-gray-200 link no-underline">
+            <a class="badge bg-gray-200 link no-underline"
+               href="{% url 'link_list' %}?tags={{ tag.name }}">
                 <span class="first-letter:uppercase">{{ tag.name }}</span>
-            </div>
+            </a>
         {% endfor %}
     </div>
 {% endblock editable %}
